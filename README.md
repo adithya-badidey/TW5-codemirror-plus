@@ -1,9 +1,20 @@
 # TW5-codemirror-plus
 Towards making a better editor for Tiddlywiki5.
 
+## To Install
+* Make sure Codemirror plugin is installed
+  * Install codemirror from https://tiddlywiki.com/plugins/tiddlywiki/codemirror/
+* Import from http://adithyab.tiddlyspot.com/
+  * $:/plugins/tiddlywiki/codemirror/mode/tw5/tw5.js
+  * $:/plugins/tiddlywiki/codemirror/mode/tw5/tw5.css
+* Reload
+* Go to Settings -> CodeMirror -> Set a Theme
+  * Set the theme for codemirror to tw5plus
+
+
 ## Roadmap
-- [ ] Convert the x-tiddlywiki by PMario into tw5
-- [ ] Inline formatting
+- [X] Convert the x-tiddlywiki mode by PMario into tw5
+- [X] Inline formatting
 - [ ] Clickable urls
 - [ ] Formatting/autocompletion for Macros
 - [ ] List continuation (when typing in a list, pressing enter should add the '\*'s at the beginning
