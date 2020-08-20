@@ -54,7 +54,9 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             reHR = /^\-\-\-\-+$/,                                 // <hr>
             reWikiCommentStart = /^\/\*\*\*$/,            // /***
             reWikiCommentStop = /^\*\*\*\/$/,             // ***/
-            reBlockQuote = /^<<<$/,
+            reBlockQuote = /^<<</,
+
+            rePreStart = /^```$/,
 
             reJsCodeStart = /^\/\/\{\{\{$/,                       // //{{{ js block start
             reJsCodeStop = /^\/\/\}\}\}$/,                        // //}}} js stop
@@ -78,7 +80,7 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             state.block = false;        // indicates the start of a code block.
 
             // check start of  blocks
-            if (sol && /[<\/\*{}\-]/.test(ch)) { //is at the start of a line and the next char is not
+            if (sol && /[<\/\*{}\-`]/.test(ch)) { //is at the start of a line and the next char is not
                 if (stream.match(reCodeBlockStart)) {
                     state.block = true;
                     return chain(stream, state, twTokenCode);
@@ -93,6 +95,10 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
                     return 'comment';
                 if (stream.match(reHR))
                     return 'hr';
+
+                if (stream.match(rePreStart))
+                    return chain(stream, state, twTokenPre);
+
             }
 
             stream.next();
@@ -114,19 +120,19 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
 
                 if (ch == "*") { // tw list
                     stream.eatWhile('*');
-                    return "comment";
+                    return "list";
                 }
                 if (ch == "#") { // tw numbered list
                     stream.eatWhile('#');
-                    return "comment";
+                    return "list";
                 }
                 if (ch == ";") { // definition list, term
                     stream.eatWhile(';');
-                    return "comment";
+                    return "list";
                 }
                 if (ch == ":") { // definition list, description
                     stream.eatWhile(':');
-                    return "comment";
+                    return "list";
                 }
                 if (ch == ">") { // single line quote
                     stream.eatWhile(">");
@@ -192,9 +198,8 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             if (ch == "'" && stream.eat("'")) // tw bold
                 return chain(stream, state, twTokenStrong);
 
-            // Commenting out macros for now.
-            // if (ch == "<" && stream.eat("<")) // tw macro
-            //   return chain(stream, state, twTokenMacro);
+            if (ch == "<" && stream.eat("<")) // tw macro
+              return chain(stream, state, twTokenMacro);
 
             // core macro handling
             stream.eatWhile(/[\w\$_]/);
@@ -322,28 +327,46 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             return "strikethrough";
         }
 
-        //  Commenting out macro while figuring out the clash with quotes
-        //   function twTokenMacro(stream, state) {
-        //     if (stream.current() == '<<') {
-        //       return 'macro';
-        //     }
+        function twTokenPre(stream, state) {
+            var maybeEnd = false, surelyend = false, ch;
+            while (ch = stream.next()) {
+                if (ch == '`' && surelyend) {
+                    stream.next();
+                    state.tokenize = tokenBase;
+                    return "pre";
+                }
+                maybeEnd = (ch == '`');
+                if (maybeEnd && (ch == '`')) {
+                    surelyend = true;
+                } else {
+                    surelyend = false;
+                }
+            }
+            return "pre";
+        }
 
-        //     var ch = stream.next();
-        //     if (!ch) {
-        //       state.tokenize = tokenBase;
-        //       return null;
-        //     }
-        //     if (ch == ">") {
-        //       if (stream.peek() == '>') {
-        //         stream.next();
-        //         state.tokenize = tokenBase;
-        //         return "macro";
-        //       }
-        //     }
 
-        //     stream.eatWhile(/[\w\$_]/);
-        //     return keywords.propertyIsEnumerable(stream.current()) ? "keyword" : null
-        //   }
+        function twTokenMacro(stream, state) {
+            if (stream.current() == '<<') {
+                return 'macro';
+            }
+
+            var ch = stream.next();
+            if (!ch) {
+                state.tokenize = tokenBase;
+                return null;
+            }
+            if (ch == ">") {
+                if (stream.peek() == '>') {
+                    stream.next();
+                    state.tokenize = tokenBase;
+                    return "macro";
+                }
+            }
+
+            stream.eatWhile(/[\w\$_]/);
+            return keywords.propertyIsEnumerable(stream.current()) ? "keyword" : null
+        }
 
         // Interface
         return {

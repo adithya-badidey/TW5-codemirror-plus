@@ -3,8 +3,8 @@ Towards making a better editor for Tiddlywiki5.
 
 ## To Install
 * Make sure Codemirror plugin is installed
-  * Install codemirror from https://tiddlywiki.com/plugins/tiddlywiki/codemirror/
-* Import from http://adithyab.tiddlyspot.com/
+  * If not, install codemirror from https://tiddlywiki.com/plugins/tiddlywiki/codemirror/
+* Visit http://adithyab.tiddlyspot.com/ and import:
   * $:/plugins/tiddlywiki/codemirror/mode/tw5/tw5.js
   * $:/plugins/tiddlywiki/codemirror/mode/tw5/tw5.css
 * Reload

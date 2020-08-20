@@ -11,7 +11,6 @@ name: tw5plus
 ```
 
 .cm-s-tw5plus {
-    font-size: 1.1em;
     line-height: 1.5em;
     background: <<colour tiddler-editor-background>>;
     color: <<colour foreground>>;
@@ -96,25 +95,25 @@ name: tw5plus
 
 .cm-s-tw5plus .cm-h1 {
     color: #d33682;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 1.383em;
 }
 
 .cm-s-tw5plus .cm-h2 {
     color: #d33682;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1.296em;
 }
 
 .cm-s-tw5plus .cm-h3 {
     color: #d33682;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.215em;
 }
 
 .cm-s-tw5plus .cm-h4 {
     color: #d33682;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1.138em;
 }
 
@@ -143,4 +142,14 @@ name: tw5plus
 
 .cm-s-tw5plus .cm-macro {
     color: #dc322f;
+}
+
+.cm-s-tw5plus .cm-pre {
+    color: #268BD2;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
+}
+
+.cm-s-tw5plus .cm-list {
+    color: #268BD2;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
 }
