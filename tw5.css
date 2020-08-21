@@ -20,6 +20,10 @@ name: tw5plus
     padding: 8px 0;
 }
 
+.cm-s-tw5plus .CodeMirror-linenumber {
+    color: #586E75;
+}
+
 .cm-s-tw5plus .CodeMirror-gutters {
     background-color: <<colour page-background>>;
     padding-right: 10px;
@@ -57,8 +61,15 @@ name: tw5plus
     color: #268BD2;
 }
 
-.cm-s-tw5plus .cm-keyword {
+.cm-s-tw5plus .cm-macro {
     color: #859900;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
+}
+
+.cm-s-tw5plus .cm-keyword {
+    color: #268bd2;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
+    font-weight: 600;
 }
 
 .cm-s-tw5plus .cm-variable {
@@ -81,12 +92,9 @@ name: tw5plus
     color: #859900;
 }
 
-.cm-s-tw5plus .CodeMirror-linenumber {
-    color: #586E75;
-}
-
 .cm-s-tw5plus .cm-quote {
     color: #859900;
+    font-style: italic;
 }
 
 .cm-s-tw5plus .cm-hr {
@@ -97,30 +105,35 @@ name: tw5plus
     color: #d33682;
     font-weight: 700;
     font-size: 1.383em;
+    line-height: 1.802em;
 }
 
 .cm-s-tw5plus .cm-h2 {
     color: #d33682;
     font-weight: 600;
     font-size: 1.296em;
+    line-height: 1.602em;
 }
 
 .cm-s-tw5plus .cm-h3 {
     color: #d33682;
     font-weight: 500;
     font-size: 1.215em;
+    line-height: 1.424em;
 }
 
 .cm-s-tw5plus .cm-h4 {
     color: #d33682;
     font-weight: 400;
     font-size: 1.138em;
+    line-height: 1.266em;
 }
 
 .cm-s-tw5plus .cm-h5 {
     color: #d33682;
     font-weight: 400;
     font-size: 1.067em;
+    line-height: 1.125em;
 }
 
 .cm-s-tw5plus .cm-h6 {
@@ -140,16 +153,42 @@ name: tw5plus
     color: #dc322f;
 }
 
-.cm-s-tw5plus .cm-macro {
-    color: #dc322f;
-}
-
 .cm-s-tw5plus .cm-pre {
     color: #268BD2;
     font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
 }
 
-.cm-s-tw5plus .cm-list {
+.cm-s-tw5plus .cm-list1 {
     color: #268BD2;
+    padding-left: 1em;
+    padding-right: 0.5em;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
+}
+
+.cm-s-tw5plus .cm-list2 {
+    color: #268BD2;
+    padding-left: 2em;
+    padding-right: 0.5em;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
+}
+
+.cm-s-tw5plus .cm-list3 {
+    color: #268BD2;
+    padding-left: 3em;
+    padding-right: 0.5em;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
+}
+
+.cm-s-tw5plus .cm-list4 {
+    color: #268BD2;
+    padding-left: 4em;
+    padding-right: 0.5em;
+    font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
+}
+
+.cm-s-tw5plus .cm-list5 {
+    color: #268BD2;
+    padding-left: 5em;
+    padding-right: 0.5em;
     font-family: {{$:/themes/tiddlywiki/vanilla/settings/codefontfamily}};
 }

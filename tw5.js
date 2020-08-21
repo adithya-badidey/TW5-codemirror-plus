@@ -40,14 +40,45 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
         var textwords = {};
 
         var keywords = {
-            "allTags": true, "closeAll": true, "list": true,
-            "newJournal": true, "newTiddler": true,
-            "permaview": true, "saveChanges": true,
-            "search": true, "slider": true, "tabs": true,
-            "tag": true, "tagging": true, "tags": true,
-            "tiddler": true, "timeline": true,
-            "today": true, "version": true, "option": true,
-            "with": true, "filter": true
+            "changecount": true,
+            "colour": true,
+            "colour-picker": true,
+            "contrastcolour": true,
+            "copy-to-clipboard": true,
+            "csvtiddlers": true,
+            "datauri": true,
+            "dumpvariables": true,
+            "image-picker": true,
+            "jsontiddler": true,
+            "jsontiddlers": true,
+            "lingo": true,
+            "list-links": true,
+            "list-links-draggable": true,
+            "list-tagged-draggable": true,
+            "list-thumbnails": true,
+            "makedatauri": true,
+            "now": true,
+            "qualify": true,
+            "resolvepath": true,
+            "box-shadow": true,
+            "filter": true,
+            "transition": true,
+            "background-linear-gradient": true,
+            "transform-origin": true,
+            "toc": true,
+            "toc-expandable": true,
+            "toc-selective-expandable": true,
+            "toc-tabbed-internal-nav": true,
+            "toc-tabbed-external-nav": true,
+            "tabs": true,
+            "tag": true,
+            "tag-picker": true,
+            "tag-pill": true,
+            "thumbnail": true,
+            "timeline": true,
+            "tree": true,
+            "unusedtitle": true,
+            "version": true
         };
 
         var isSpaceName = /[\w_\-]/i,
@@ -104,35 +135,26 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             stream.next();
             if (sol && /[\/\*!#;:>|]/.test(ch)) {
                 if (ch == "!") { // tw header
-                    var result = "h1";
-                    if (stream.eat("!")) // tw underline
-                        result = "h2"
-                    if (stream.eat("!")) // tw underline
-                        result = "h3";
-                    if (stream.eat("!")) // tw underline
-                        result = "h4";
-                    if (stream.eat("!")) // tw underline
-                        result = "h5";
-
+                    var count = 1;
+                    while (stream.eat('!'))
+                        count++;
                     stream.skipToEnd();
-                    return result;
+                    return "h" + count;
                 }
 
-                if (ch == "*") { // tw list
-                    stream.eatWhile('*');
-                    return "list";
-                }
-                if (ch == "#") { // tw numbered list
-                    stream.eatWhile('#');
-                    return "list";
+                if (ch == "*" || ch == "#") { // tw list
+                    var count = 1;
+                    while (stream.eat('*') || stream.eat('#'))
+                        count++;
+                    return "list" + count;
                 }
                 if (ch == ";") { // definition list, term
                     stream.eatWhile(';');
-                    return "list";
+                    return "list1";
                 }
                 if (ch == ":") { // definition list, description
                     stream.eatWhile(':');
-                    return "list";
+                    return "list2";
                 }
                 if (ch == ">") { // single line quote
                     stream.eatWhile(">");
@@ -199,7 +221,7 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
                 return chain(stream, state, twTokenStrong);
 
             if (ch == "<" && stream.eat("<")) // tw macro
-              return chain(stream, state, twTokenMacro);
+                return chain(stream, state, twTokenMacro);
 
             // core macro handling
             stream.eatWhile(/[\w\$_]/);
@@ -365,7 +387,7 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             }
 
             stream.eatWhile(/[\w\$_]/);
-            return keywords.propertyIsEnumerable(stream.current()) ? "keyword" : null
+            return keywords.propertyIsEnumerable(stream.current()) ? "keyword" : "macro"
         }
 
         // Interface
