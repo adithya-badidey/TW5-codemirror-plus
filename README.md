@@ -1,5 +1,6 @@
 # TW5-codemirror-plus
 Towards making a better editor for Tiddlywiki5.
+**Demo**: Visit http://adithyab.tiddlyspot.com/ and edit any tiddler to see the new editor.
 
 ## To Install
 * Make sure Codemirror plugin is installed
