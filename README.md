@@ -12,6 +12,8 @@ Towards making a better editor for Tiddlywiki5.
 * Go to Settings -> CodeMirror -> Set a Theme
   * Set the theme for codemirror to tw5plus
 
+## Current Status
+![Current Status](../res/tw-inline-formatting.jpeg)
 
 ## Roadmap
 - [X] Convert the x-tiddlywiki mode by PMario into tw5

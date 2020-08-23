@@ -40,64 +40,32 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
         var textwords = {};
 
         var keywords = {
-            "changecount": true,
-            "colour": true,
-            "colour-picker": true,
-            "contrastcolour": true,
-            "copy-to-clipboard": true,
-            "csvtiddlers": true,
-            "datauri": true,
-            "dumpvariables": true,
-            "image-picker": true,
-            "jsontiddler": true,
-            "jsontiddlers": true,
-            "lingo": true,
-            "list-links": true,
-            "list-links-draggable": true,
-            "list-tagged-draggable": true,
-            "list-thumbnails": true,
-            "makedatauri": true,
-            "now": true,
-            "qualify": true,
-            "resolvepath": true,
-            "box-shadow": true,
-            "filter": true,
-            "transition": true,
-            "background-linear-gradient": true,
-            "transform-origin": true,
-            "toc": true,
-            "toc-expandable": true,
-            "toc-selective-expandable": true,
-            "toc-tabbed-internal-nav": true,
-            "toc-tabbed-external-nav": true,
-            "tabs": true,
-            "tag": true,
-            "tag-picker": true,
-            "tag-pill": true,
-            "thumbnail": true,
-            "timeline": true,
-            "tree": true,
-            "unusedtitle": true,
+            "changecount": true, "colour": true,
+            "colour-picker": true, "contrastcolour": true,
+            "copy-to-clipboard": true, "csvtiddlers": true,
+            "datauri": true, "dumpvariables": true,
+            "image-picker": true, "jsontiddler": true,
+            "jsontiddlers": true, "lingo": true,
+            "list-links": true, "list-links-draggable": true,
+            "list-tagged-draggable": true, "list-thumbnails": true,
+            "makedatauri": true, "now": true,
+            "qualify": true, "resolvepath": true,
+            "box-shadow": true, "filter": true,
+            "transition": true, "background-linear-gradient": true,
+            "transform-origin": true, "toc": true,
+            "toc-expandable": true, "toc-selective-expandable": true,
+            "toc-tabbed-internal-nav": true, "toc-tabbed-external-nav": true,
+            "tabs": true, "tag": true,
+            "tag-picker": true, "tag-pill": true,
+            "thumbnail": true, "timeline": true,
+            "tree": true, "unusedtitle": true,
             "version": true
         };
 
         var isSpaceName = /[\w_\-]/i,
             reHR = /^\-\-\-\-+$/,                                 // <hr>
-            reWikiCommentStart = /^\/\*\*\*$/,            // /***
-            reWikiCommentStop = /^\*\*\*\/$/,             // ***/
             reBlockQuote = /^<<</,
-
-            rePreStart = /^```$/,
-
-            reJsCodeStart = /^\/\/\{\{\{$/,                       // //{{{ js block start
-            reJsCodeStop = /^\/\/\}\}\}$/,                        // //}}} js stop
-            reXmlCodeStart = /^<!--\{\{\{-->$/,           // xml block start
-            reXmlCodeStop = /^<!--\}\}\}-->$/,            // xml stop
-
-            reCodeBlockStart = /^\{\{\{$/,                        // {{{ TW text div block start
-            reCodeBlockStop = /^\}\}\}$/,                 // }}} TW text stop
-
-            reUntilCodeStop = /.*?\}\}\}/;
+            rePreStart = /^```$/;
 
         function chain(stream, state, f) {
             state.tokenize = f;
@@ -108,28 +76,17 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             var sol = stream.sol(), // sol() -> Returns true only if the stream is at the start of the line.
                 ch = stream.peek(); // Returns the next character in the stream without advancing it. Will return a null at the end of the line.
 
-            state.block = false;        // indicates the start of a code block.
-
             // check start of  blocks
             if (sol && /[<\/\*{}\-`]/.test(ch)) { //is at the start of a line and the next char is not
-                if (stream.match(reCodeBlockStart)) {
-                    state.block = true;
-                    return chain(stream, state, twTokenCode);
-                }
                 if (stream.match(reBlockQuote)) {
-                    stream.skipToEnd();
-                    return 'quote';
+                    return chain(stream, state, twTokenQuote);
                 }
-                if (stream.match(reWikiCommentStart) || stream.match(reWikiCommentStop))
-                    return 'comment';
-                if (stream.match(reJsCodeStart) || stream.match(reJsCodeStop) || stream.match(reXmlCodeStart) || stream.match(reXmlCodeStop))
-                    return 'comment';
+                
                 if (stream.match(reHR))
                     return 'hr';
 
                 if (stream.match(rePreStart))
                     return chain(stream, state, twTokenPre);
-
             }
 
             stream.next();
@@ -164,41 +121,21 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
                     return 'header';
             }
 
-            if (ch == '{' && stream.match(/\{\{/))
-                return chain(stream, state, twTokenCode);
-
             // rudimentary html:// file:// link matching. TW knows much more ...
             if (/[hf]/i.test(ch) &&
                 /[ti]/i.test(stream.peek()) &&
-                stream.match(/\b(ttps?|tp|ile):\/\/[\-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i))
-                return "link";
+                stream.match(/\b(ttps?|tp|ile):\/\/[\-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i, true))
+                return "externallink";
 
-            // just a little string indicator, don't want to have the whole string covered
-            if (ch == '"')
-                return 'string';
-
-            if (ch == '~')    // _no_ CamelCase indicator should be bold
-                return 'brace';
-
-            if (ch == "@") {    // check for space link. TODO fix @@...@@ highlighting
-                stream.eatWhile(isSpaceName);
-                return "link";
+            if (ch == '`') { //
+                return chain(stream, state, twTokenMonospace);
             }
 
-            // Dont want numbers
-            // if (/\d/.test(ch)) {        // numbers
-            //   stream.eatWhile(/\d/);
-            //   return "number";
-            // }
+            if (ch == "/" && stream.eat("/")) { //
+                return chain(stream, state, twTokenEm);
+            }
 
-            // if (ch == "/") { // tw invisible comment
-            //   if (stream.eat("%")) {
-            //     return chain(stream, state, twTokenComment);
-            //   } else if (stream.eat("/")) { //
-            //     return chain(stream, state, twTokenEm);
-            //   }
-            // }
-            if (ch == "{" && stream.eat("{")) // tw underline
+            if (ch == "{" && stream.eat("{")) 
                 return chain(stream, state, twTranslclude);
 
             if (ch == "[" && stream.eat("[")) // tw InternalLink
@@ -207,14 +144,15 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             if (ch == "_" && stream.eat("_")) // tw underline
                 return chain(stream, state, twTokenUnderline);
 
-            // strikethrough and mdash handling
-            if (ch == "-" && stream.eat("-")) {
-                // if strikethrough looks ugly, change CSS.
-                if (stream.peek() != ' ')
-                    return chain(stream, state, twTokenStrike);
-                // mdash
-                if (stream.peek() == ' ')
-                    return 'brace';
+            if (ch == "^" && stream.eat("^"))
+                return chain(stream, state, twSuperscript);
+
+            if (ch == "," && stream.eat(",")) // tw underline
+                return chain(stream, state, twSubscript);
+
+            // tw strikethrough
+            if (ch == "~" && stream.eat("~")) {
+                return chain(stream, state, twTokenStrike);
             }
 
             if (ch == "'" && stream.eat("'")) // tw bold
@@ -223,9 +161,7 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             if (ch == "<" && stream.eat("<")) // tw macro
                 return chain(stream, state, twTokenMacro);
 
-            // core macro handling
-            stream.eatWhile(/[\w\$_]/);
-            return textwords.propertyIsEnumerable(stream.current()) ? "keyword" : null
+            return null
         }
 
         //   // tw invisible comment
@@ -255,42 +191,30 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             return "strong";
         }
 
-        // tw code
-        function twTokenCode(stream, state) {
-            var sb = state.block;
-
-            if (sb && stream.current()) {
-                return "comment";
+        function twTokenMonospace(stream, state) {
+            var ch;
+            while (ch = stream.next()) {
+                if (ch == "`") {
+                    state.tokenize = tokenBase;
+                    break;
+                }
             }
-
-            if (!sb && stream.match(reUntilCodeStop)) {
-                state.tokenize = tokenBase;
-                return "comment";
-            }
-
-            if (sb && stream.sol() && stream.match(reCodeBlockStop)) {
-                state.tokenize = tokenBase;
-                return "comment";
-            }
-
-            stream.next();
-            return "comment";
+            return "monospace";
         }
 
-        // Commenting this out while figuring out the clash with http://
-        //   // tw em / italic
-        //   function twTokenEm(stream, state) {
-        //     var maybeEnd = false,
-        //     ch;
-        //     while (ch = stream.next()) {
-        //       if (ch == "/" && maybeEnd) {
-        //         state.tokenize = tokenBase;
-        //         break;
-        //       }
-        //       maybeEnd = (ch == "/");
-        //     }
-        //     return "em";
-        //   }
+        // tw em / italic
+        function twTokenEm(stream, state) {
+            var maybeEnd = false,
+                ch;
+            while (ch = stream.next()) {
+                if (ch == "/" && maybeEnd) {
+                    state.tokenize = tokenBase;
+                    break;
+                }
+                maybeEnd = (ch == "/");
+            }
+            return "em";
+        }
 
         // tw transclusions
         function twTranslclude(stream, state) {
@@ -308,16 +232,43 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
 
         // tw internal links
         function twInternalLink(stream, state) {
-            var maybeEnd = false,
-                ch;
-            while (ch = stream.next()) {
-                if (ch == "]" && maybeEnd) {
-                    state.tokenize = tokenBase;
-                    break;
-                }
-                maybeEnd = (ch == "]");
+            if (stream.current() == '[[') {
+                state.pastDivider = false;
+                console.log("Start of link");
+                return 'link';
             }
-            return "internallink";
+            if (stream.peek() == ']') {
+                stream.next()
+                if(stream.next() == ']') {
+                    state.tokenize = tokenBase;
+                    console.log("End of link");
+                    return 'link';
+                }
+            }
+            var pastDivider = state.pastDivider,
+                ch;
+            while (ch = stream.peek()) {
+                console.log("Peeking :" + ch);
+                if (!pastDivider && ch=='|') {
+                    stream.next();
+                    state.pastDivider = true;
+                    console.log("Past the divider");
+                    return 'link';
+                }
+                if (ch == "]" && stream.peek() == "]") {
+                    console.log("Found end of link");
+                    return "internallink";
+                }
+                ch = stream.next();
+                if (/[hf]/i.test(ch) &&
+                        /[ti]/i.test(stream.peek()) &&
+                        stream.match(/\b(ttps?|tp|ile):\/\/[\-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i, true)) {
+                    console.log("Found external link");
+                    return "externallink";
+                }
+                stream.eatWhile(/[^|\]]/);
+            }
+            return null;
         }
 
         // tw underlined text
@@ -334,37 +285,73 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
             return "underlined";
         }
 
-        // tw strike through text looks ugly
-        // change CSS if needed
+        function twSubscript(stream, state) {
+            var maybeEnd = false, ch;
+
+            while (ch = stream.next()) {
+                if (ch == "," && maybeEnd) {
+                    state.tokenize = tokenBase;
+                    break;
+                }
+                maybeEnd = (ch == ",");
+            }
+            return "subscript";
+        }
+
+        function twSuperscript(stream, state) {
+            var maybeEnd = false, ch;
+
+            while (ch = stream.next()) {
+                if (ch == "^" && maybeEnd) {
+                    state.tokenize = tokenBase;
+                    break;
+                }
+                maybeEnd = (ch == "^");
+            }
+            return "superscript";
+        }
+
         function twTokenStrike(stream, state) {
             var maybeEnd = false, ch;
 
             while (ch = stream.next()) {
-                if (ch == "-" && maybeEnd) {
+                if (ch == "~" && maybeEnd) {
                     state.tokenize = tokenBase;
                     break;
                 }
-                maybeEnd = (ch == "-");
+                maybeEnd = (ch == "~");
             }
             return "strikethrough";
         }
 
         function twTokenPre(stream, state) {
-            var maybeEnd = false, surelyend = false, ch;
+            var sol = stream.sol(), maybeEnd = false, surelyend = false, ch;
             while (ch = stream.next()) {
-                if (ch == '`' && surelyend) {
+                if (ch == '`' && surelyend && stream.eol()) {
                     stream.next();
                     state.tokenize = tokenBase;
                     return "pre";
                 }
-                maybeEnd = (ch == '`');
-                if (maybeEnd && (ch == '`')) {
-                    surelyend = true;
-                } else {
-                    surelyend = false;
-                }
+                surelyend = (maybeEnd && (ch == '`'));
+                maybeEnd = (sol && ch == '`');
+                sol = stream.sol();
             }
             return "pre";
+        }
+
+        function twTokenQuote(stream, state) {
+            var sol = stream.sol(), maybeEnd = false, surelyend = false, ch;
+            while (ch = stream.next()) {
+                if (ch == '<' && surelyend) {
+                    stream.skipToEnd();
+                    state.tokenize = tokenBase;
+                    return "quote";
+                }
+                surelyend = (maybeEnd && (ch == '<'));
+                maybeEnd = (sol && ch == '<');
+                sol = stream.sol();
+            }
+            return "quote";
         }
 
 
