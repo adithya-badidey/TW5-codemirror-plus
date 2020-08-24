@@ -234,36 +234,36 @@ Info: CoreVersion parameter is needed for TiddlyWiki only!
         function twInternalLink(stream, state) {
             if (stream.current() == '[[') {
                 state.pastDivider = false;
-                console.log("Start of link");
+                // console.log("Start of link");
                 return 'link';
             }
             if (stream.peek() == ']') {
                 stream.next()
                 if(stream.next() == ']') {
                     state.tokenize = tokenBase;
-                    console.log("End of link");
+                    // console.log("End of link");
                     return 'link';
                 }
             }
             var pastDivider = state.pastDivider,
                 ch;
             while (ch = stream.peek()) {
-                console.log("Peeking :" + ch);
+                // console.log("Peeking :" + ch);
                 if (!pastDivider && ch=='|') {
                     stream.next();
                     state.pastDivider = true;
-                    console.log("Past the divider");
+                    // console.log("Past the divider");
                     return 'link';
                 }
                 if (ch == "]" && stream.peek() == "]") {
-                    console.log("Found end of link");
+                    // console.log("Found end of link");
                     return "internallink";
                 }
                 ch = stream.next();
                 if (/[hf]/i.test(ch) &&
                         /[ti]/i.test(stream.peek()) &&
                         stream.match(/\b(ttps?|tp|ile):\/\/[\-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i, true)) {
-                    console.log("Found external link");
+                    // console.log("Found external link");
                     return "externallink";
                 }
                 stream.eatWhile(/[^|\]]/);
