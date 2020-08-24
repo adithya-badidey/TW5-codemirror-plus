@@ -13,7 +13,7 @@ Towards making a better editor for Tiddlywiki5.
   * Set the theme for codemirror to tw5plus
 
 ## Current Status
-![Current Status](../res/tw-inline-formatting.jpeg)
+![Current Status](res/tw-inline-formatting.jpeg)
 
 ## Roadmap
 - [X] Convert the x-tiddlywiki mode by PMario into tw5
