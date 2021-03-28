@@ -1,0 +1,12 @@
+created: 20210328194833731
+modified: 20210328194846104
+tags: 
+title: How to Install
+type: text/vnd.tiddlywiki
+
+*Install the latest CodeMirror plugin from https://tiddlywiki.com/plugins/tiddlywiki/codemirror/
+**Don't install the CodeMirror-Autocomplete plugin.
+*Drag and drop [[$:/plugins/adithyab/cmplus]] into your TW
+*Reload
+*Go to Settings -> CodeMirror -> Set a Theme
+**Set the theme to `cmplus`

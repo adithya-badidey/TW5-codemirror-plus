@@ -1,5 +1,15 @@
 #!/bin/bash
-tiddlywiki --verbose -–build index
-mv ./output/index.html ./wiki.html
+
+rm -rf ./docs/*
+
+tiddlywiki --build index
+
+mv ./output/index.html ./docs/wiki.html
+
 tiddlywiki --build tiddlyjam
-mv ./wiki.html ./output/wiki.html
+
+mv ./output/* ./docs/
+
+mkdir ./docs/images
+
+cp ./images/* ./docs/images/

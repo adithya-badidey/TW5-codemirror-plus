@@ -1,31 +1,38 @@
 created: 20210327000329959
-modified: 20210328164829612
+modified: 20210328205211331
 tags: 
 title: About CodeMirrorPlus
 type: text/vnd.tiddlywiki
 
-<$link to="$:/plugins/adithyab/cmplus"><<shield label:Release status:{{$:/plugins/adithyab/cmplus!!version}} colour:purple>></$link>
-<a href="https://tiddlywiki.com"><<shield label:~TiddlyWiki status:5.1.22+ colour:blue>></a>
+<span>
+<<shield label:~TiddlyWiki status:5.1.12+ colour:blue>>
+</span>
+<a href="https://adithya-badidey.github.io/TW5-codemirror-plus/wiki.html" target="_blank">
+	<<shield label:Release status:{{$:/plugins/adithyab/cmplus!!version}} colour:purple>>
+</a>
+<a href="https://github.com/adithya-badidey/TW5-codemirror-plus" target="_blank">
+	<<shield label:Github status:TW5-codemirror-plus colour:yellow>>
+</a>
 
 The aim of the project is to create a better experience of typing on TiddlyWiki5.
 
 !! Features
-*Inline formatting
-*Indenting of lists
-*Internal-link autocompletion
+
+*Inline formatting / indented lists
+
+[img[images/example1.png]]
+
+*Internal-link autocompletion (Ctrl + Space)
+
+[img[images/example2.png]]
+
 *Customizable colours
-*See [[Draft of 'Wikitext Formats']]
 
-!! How to Install
-*Install the latest CodeMirror plugin from https://tiddlywiki.com/plugins/tiddlywiki/codemirror/
-**Don't install the CodeMirror-Autocomplete plugin.
-*Drag and drop [[$:/plugins/adithyab/cmplus]] into your TW
-*Reload
-*Go to Settings -> CodeMirror -> Set a Theme
-**Set the theme to `cmplus`
-
-
-!! Future Roadmap
+!! Future Wishlist
 *Clickable urls
 *Formatting/autocompletion for Macros
 *List continuation (when typing in a list, pressing enter should add the '*'s at the beginning)
+
+!! Preview and Installation
+*Open the wiki at https://adithya-badidey.github.io/TW5-codemirror-plus/wiki.html. 
+*Follow directions in "How to Install"

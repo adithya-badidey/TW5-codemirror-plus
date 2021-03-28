@@ -1,7 +1,7 @@
 created: 20200728102956586
 creator: Adithya_
 description: A static generator for TiddlyWiki. Inspired by JamStack.
-modified: 20210328163123043
+modified: 20210328201642120
 modifier: Adithya_
 name: Homepage
 published: 20210314001527357
@@ -16,8 +16,14 @@ type: text/vnd.tiddlywiki
             <div class="subtitle">
                 {{$:/SiteSubtitle}}
             </div>
+						<div class="content">
+		 <$wikify name="output" type="text/vnd.tiddlywiki" text={{About CodeMirrorPlus}} mode="block" output="html">
+    <<output>>
+  </$wikify>
+		</div>
         </div>
     </div>
+    
     <div>
         <div class="container mt-6">
             <div class="column is-6-desktop is-offset-3-desktop is-8 is-offset-2">
@@ -27,3 +33,6 @@ type: text/vnd.tiddlywiki
         </div>
     </div>
 </section>
+<style>
+{{$:/plugins/nico/shields/stylesheet}}
+</style>
