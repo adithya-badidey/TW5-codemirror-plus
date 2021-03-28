@@ -1,0 +1,5 @@
+#!/bin/bash
+tiddlywiki --verbose -–build index
+mv ./output/index.html ./wiki.html
+tiddlywiki --build tiddlyjam
+mv ./wiki.html ./output/wiki.html
