@@ -1,0 +1,52 @@
+created: 20200815114456068
+creator: adithyb_tspot
+modified: 20210328164048306
+modifier: adithyb_tspot
+tags: internals
+title: Wikitext Formats
+type: text/vnd.tiddlywiki
+
+! WikiText Inline Formatting
+*Bold
+**''Text''
+*Italic
+**//Text//
+*Links
+**[[Lorem Ipsum|About CodeMirrorPlus]]
+**[[Lorem Ipsum|https://adithyab.in]]
+*Monospace
+**`Text`
+*Transclusion
+**{{Hello}}
+**{{{Hi}}}
+*Link: https://google.com
+*Macro 
+**<<version "Something" >>
+*Pre
+```
+Preformatted Block
+asdasd
+```
+*Strikethrough
+**~~Text~~
+*Underline
+**__Text__
+*Superscript
+**^^Text^^
+*Subscript
+**,,Text,,
+
+* Quotes
+<<< Hello
+Hello
+Yow are
+<<< Eht end
+
+!! Heading2
+!!! Heading3
+!!!! Heading4
+!!!!! Heading5
+!!!!!! Heading6
+
+
+

@@ -10,7 +10,7 @@ Towards making a better editor for Tiddlywiki5.
   * $:/plugins/tiddlywiki/codemirror/mode/tw5/tw5.css
 * Reload
 * Go to Settings -> CodeMirror -> Set a Theme
-  * Set the theme for codemirror to tw5plus
+  * Set the theme for codemirror to cmplus
 
 ## Current Status
 ![Current Status](res/tw-inline-formatting.jpeg)
