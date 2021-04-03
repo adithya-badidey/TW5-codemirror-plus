@@ -17,12 +17,16 @@
 		var start = cur.ch;
 		var end = start;
 		var max_length = 30
+
+		var escapeChars = ['.', ']', '}', '>']
+		var stopChars = ['[', '{', '|', '"']
+
 		while (start) {
-			if (end - start > max_length) {
-				return null;
-			}
 			var ch = curLine.charAt(start - 1)
-			if (!(ch == '[' || ch == '{' || ch == "|")) {
+			if (end - start > max_length || escapeChars.includes(ch)) {
+				return null
+			}
+			if (!(stopChars.includes(ch))) {
 				start--;
 			} else {
 				break;

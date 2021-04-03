@@ -10,6 +10,6 @@ tiddlywiki --build tiddlyjam
 
 mv ./output/* ./docs/
 
-mkdir ./docs/images
+mkdir ./docs/files
 
-cp ./images/* ./docs/images/
+cp ./files/* ./docs/files/

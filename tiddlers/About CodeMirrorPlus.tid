@@ -1,5 +1,5 @@
 created: 20210327000329959
-modified: 20210328205211331
+modified: 20210403205240361
 tags: 
 title: About CodeMirrorPlus
 type: text/vnd.tiddlywiki
@@ -20,11 +20,11 @@ The aim of the project is to create a better experience of typing on TiddlyWiki5
 
 *Inline formatting / indented lists
 
-[img[images/example1.png]]
+[img[files/example1.png]]
 
 *Internal-link autocompletion (Ctrl + Space)
 
-[img[images/example2.png]]
+[img[files/example2.png]]
 
 *Customizable colours
 
