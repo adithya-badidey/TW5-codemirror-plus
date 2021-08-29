@@ -5,8 +5,8 @@
 
 |''Name''|tw5.js|
 |''Description''|Enables TiddlyWikiy syntax highlighting using CodeMirror|
-|''Original Contributor''|PMario|
-|''Author''|[[adithya-badidey|https://github.com/adithya-badidey]]|
+|''Author''|PMario|
+|''Maintainer''|[[adithya-badidey|https://github.com/adithya-badidey]]|
 |''Version''|0.1.8|
 |''Status''|''stable''|
 |''Source''|[[GitHub|https://github.com/adithya-badidey/TW5-codemirror-plus]]|

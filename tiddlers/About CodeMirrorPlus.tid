@@ -1,5 +1,5 @@
 created: 20210327000329959
-modified: 20210403205240361
+modified: 20210403210950857
 tags: 
 title: About CodeMirrorPlus
 type: text/vnd.tiddlywiki
@@ -32,6 +32,7 @@ The aim of the project is to create a better experience of typing on TiddlyWiki5
 *Clickable urls
 *Formatting/autocompletion for Macros
 *List continuation (when typing in a list, pressing enter should add the '*'s at the beginning)
+*Work with inline HTML/CSS/JS
 
 !! Preview and Installation
 *Open the wiki at https://adithya-badidey.github.io/TW5-codemirror-plus/wiki.html. 
